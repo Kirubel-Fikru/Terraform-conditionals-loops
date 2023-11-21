@@ -17,12 +17,12 @@ provider "aws" {
 variable "iam_users" {
     description = "List of iam users"
     type = list(string)
-    default = [ "Abebe","Beqele","Kebed" ]
+    default = [ "Abebe","Beqele","Kebede" ]
   
 }
 
 resource "aws_iam_user" "target_group_arns" {
-    count = 3
+    count = length(var.iam_users)
     name = var.iam_users[count.index]
       
 }
