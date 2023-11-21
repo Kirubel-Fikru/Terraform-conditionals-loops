@@ -20,9 +20,20 @@ variable "iam_users" {
     default = [ "Abebe","Beqele","Kebede" ]
   
 }
+output "all_arns" {
+    value = aws_iam_user.example[*].arn
+    description = "The ARNs for all users"
+}
 
-resource "aws_iam_user" "target_group_arns" {
-    count = length(var.iam_users)
-    name = var.iam_users[count.index]
+### Loop with count
+# resource "aws_iam_user" "example" {
+#     count = length(var.iam_users)
+#     name = var.iam_users[count.index]
       
+# }
+
+## Loop with foreach
+resource "aws_iam_user" "foreach_user" {
+    for_each = toset(var.iam_users)
+    name = each.value
 }
